@@ -13,19 +13,24 @@ import java.net.InetAddress;
 public class K8SController {
 
     @RequestMapping("/k8s")
-    public String k8s(){
+    public String k8s() {
         System.out.println("Hello K8s!!!");
         return "hello K8s Jack and zhangbin OK 666";
     }
+
     @Autowired
     private RedisUtil redisUtil;
 
     @RequestMapping("/redis")
-    public String getKey(@RequestParam("key") String key){
-        if(!redisUtil.hasKey(key)){
-            redisUtil.set(key, "bearPotMan");
-        }
+    public String getKey(@RequestParam("key") String key) {
         System.out.println("进入到了Redis");
-        return redisUtil.get(key);
+        if (!redisUtil.hasKey(key)) {
+            redisUtil.set(key, "666");
+            redisUtil.setExpired(key);
+            return "没查到 + " + key;
+        } else {
+
+            return redisUtil.get(key);
+        }
     }
 }

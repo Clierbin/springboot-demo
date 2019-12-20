@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * ClassName:RedisUtil
  * Package:com.gupao.springbootdemo.util
@@ -43,5 +45,13 @@ public class RedisUtil {
      */
     public String get(String key) {
         return redisTemplate.opsForValue().get(key);
+    }
+    /**
+     * 设置 key 的过期时间
+     * @param key
+     * @return
+     */
+    public Boolean setExpired(String key) {
+        return redisTemplate.expire(key,30, TimeUnit.SECONDS);
     }
 }
